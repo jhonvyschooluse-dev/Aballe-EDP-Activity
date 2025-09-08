@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Sheet Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    }
+
+    @keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    #saveBtn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    #saveBtn:hover {
+      background: #45a049;
+    }
+
+    #fetchBtn {
+      background: #2196F3;
+      color: white;
+    }
+
+    #fetchBtn:hover {
+      background: #1976D2;
+    }
+
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 80%;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ANG POGI KO TALAGA</h1>
+  
+  <button id="saveBtn"> Save Data</button>
+  <button id="fetchBtn"> Fetch Data</button>
+
+  <table id="dataTable"></table>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxkJxi8A5uN8cF6vFhMZjZHKBHi9lsvPd65jvWbO_8O6zdu2MexC2n-K43-pd3F5xk/exec"; // paste your Web App URL here
+
+    // Save Data
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      const payload = { name: "John Doe", score: 95 };
+
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.text())
+      .then(msg => alert(msg))
+      .catch(err => console.error("Error:", err));
+    });
+
+    // Fetch Data
+    document.getElementById("fetchBtn").addEventListener("click", () => {
+      fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => {
+          const table = document.getElementById("dataTable");
+          table.innerHTML = ""; // clear old data
+
+          // Create table rows
+          data.forEach((row, i) => {
+            let tr = document.createElement("tr");
+            row.forEach(cell => {
+              let td = document.createElement(i === 0 ? "th" : "td");
+              td.textContent = cell;
+              tr.appendChild(td);
+            });
+            table.appendChild(tr);
+          });
+        })
+        .catch(err => console.error("Error:", err));
+    });
+  </script>
+
+</body>
+</html>
